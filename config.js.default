@@ -1,0 +1,13 @@
+module.exports = {
+	'port': 7000,
+	'redis': 'redis://xxx.xxx.xxx.xxx:6379',
+	'env': 'development',
+	'mysql': {
+		'host': 'xxx.xxx.xxx.xxx',
+		'port': '22',
+		'user': 'mysql',
+		'password': 'xxxxxxx',
+		'database': 'xxxxxxx'
+	}
+}
+

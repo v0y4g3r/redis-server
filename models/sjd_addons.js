@@ -1,0 +1,12 @@
+module.exports=[
+	'id',
+	'name',
+	'title',
+	'description',
+	'status',
+	'config',
+	'author',
+	'version',
+	'create_time',
+	'has_adminlist'
+]
