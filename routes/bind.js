@@ -41,6 +41,9 @@ router.post('/', function (req, response, next) {
 		.then((res)=> {
 			response.json(res);
 		})
+		.catch(ER_DUP_ENTRY=> {//if duplicate UNIQUE INDEX found when inserting into mysql
+			return next(errorCode.EOIDEXISTS);
+		})
 		.catch((e)=> {//handle all errors during the redis and mysql ops
 			if (e.toClient)  return next(e.body);//if the message is sent to client
 			else {
