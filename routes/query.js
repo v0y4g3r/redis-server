@@ -25,7 +25,7 @@ router.get('/', function (req, res, next) {
 			if (e.toClient) {
 				return next(e.body);
 			}
-			console.log(e.stack)
+			console.log(e.stack);
 		});
 });
 

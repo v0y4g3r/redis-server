@@ -23,7 +23,7 @@ client.on('error', function (error) {
 // client.hmset=RedisClient.hmset;
 //TODO is there any better solution to timeout error?
 setInterval(function () {
-	console.log('\n' + new Date().toString().green + ' Redis hreart-beat');
+	console.log('\n' + new Date().toString().green + ' Redis heart-beat');
 	client.set('redis-keepalive', '1');
 }, 60 * 1000);
 
