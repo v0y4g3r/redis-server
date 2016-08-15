@@ -19,7 +19,7 @@ bind.setClient(globalRedisClient);
 var app = express();
 app.set('env', config.env);
 
-app.use(logger('dev'));
+//app.use(logger('dev'));
 
 //TODO define parser for each router
 app.use(bodyParser.urlencoded({
