@@ -4,6 +4,7 @@ var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var colors = require('colors');
+var errorCode = require('./errors/errorCode');
 
 //global redis connection
 var globalRedisClient = require('./connection/redis.js');
@@ -21,7 +22,6 @@ app.set('env', config.env);
 
 //app.use(logger('dev'));
 
-//TODO define parser for each router
 app.use(bodyParser.urlencoded({
 	extended: false
 }));
@@ -43,8 +43,8 @@ if (app.get('env') === 'development') {
 	app.use(function (err, req, res, next) {
 		res.status(err.status || 500);
 		res.json({
-			code: err.status,
-			message: err.message
+			"status": err.status < 400 ? '1' : '0',
+			"info": err.message
 		});
 	});
 } else {

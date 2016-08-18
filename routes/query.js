@@ -19,7 +19,7 @@ router.get('/', function (req, res, next) {
 		})
 		.then((userInfo)=> {
 			if (!userInfo) throw ({"toClient": true, "body": errorCode.ENORES});
-			res.json(userInfo);
+			res.json({"status": "1", "info": userInfo});
 		})
 		.catch((e)=> {
 			if (e.toClient) {
