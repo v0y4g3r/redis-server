@@ -38,8 +38,8 @@ router.post('/', function (req, response, next) {
 			var sql = 'INSERT INTO SJD_OID_UID(OID,UID) VALUES(\'' + openid + '\',\'' + uid + '\');';
 			return mysqlClient.queryAsync(sql);
 		})
-		.then((res)=> {//TODO check insertion error for duplicate entry
-			response.json(errorCode.SUCCESS);
+		.then((res)=> {
+			return next(errorCode.SUCCESS);
 		})
 		.catch(ER_DUP_ENTRY=> {//if duplicate UNIQUE INDEX found when inserting into mysql
 			return next(errorCode.EOIDEXISTS);
