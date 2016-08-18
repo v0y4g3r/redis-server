@@ -39,7 +39,7 @@ router.post('/', function (req, response, next) {
 			return mysqlClient.queryAsync(sql);
 		})
 		.then((res)=> {
-			response.json(res);
+			return next(errorCode.SUCCESS);
 		})
 		.catch(ER_DUP_ENTRY=> {//if duplicate UNIQUE INDEX found when inserting into mysql
 			return next(errorCode.EOIDEXISTS);

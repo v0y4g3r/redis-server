@@ -7,7 +7,6 @@ var thisClient;
 
 /**
  * Handle redis K-V update request
- * //TODO
  * @param {string} request.body.field
  */
 router.post('/', function (request, response, next) {
