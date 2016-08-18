@@ -14,7 +14,12 @@ router.get('/', function (req, res, next) {
 
 	var getAsyncPromise = thisRedisClient.getAsync('OID_UID:' + openid);//use promise variable to reserve the result of getAsync
 	getAsyncPromise.then((uid)=> {
-			if (!uid) throw({"toClient": true, "body": errorCode.ENULLUID});
+			if (!uid) throw({
+				"toClient": true, "body": ((data)=> {
+					data.message = "微信ID未绑定！";
+					return data
+				})(errorCode.ENULLUID)
+			});
 			return thisRedisClient.hgetallAsync('sjd_member:' + uid);//Query user info by uid
 		})
 		.then((userInfo)=> {
