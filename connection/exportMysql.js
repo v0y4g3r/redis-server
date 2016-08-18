@@ -17,7 +17,7 @@ pool.acquire(function (err, mysqlClient) {
 		var thisIndex = 0;
 		for (var i = 0; i < key.length; i++) {
 			res[thisIndex++] = key[i];
-			res[thisIndex++] = value[key[i]] ? value[key[i]].toString() : '';//TODO TypeError: Cannot read property 'toString' of null
+			res[thisIndex++] = value[key[i]] ? value[key[i]].toString() : '';
 		}
 		return res;
 	}
