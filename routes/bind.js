@@ -35,14 +35,14 @@ router.post('/', function (req, response, next) {
 		})
 		.then((mysqlClient)=> {
 			mysqlClient.queryAsync = Promise.promisify(Object.getPrototypeOf(mysqlClient).query);
-			var sql = 'INSERT INTO SJD_OID_UID(OID,UID) VALUES(\'' + openid + '\',\'' + uid + '\');';
+			var sql = 'INSERT INTO sjd_oid_uid(oid,uid) VALUES(\'' + openid + '\',\'' + uid + '\');';
 			return mysqlClient.queryAsync(sql);
 		})
 		.then((res)=> {
 			return next(errorCode.SUCCESS);
 		})
 		.catch(ER_DUP_ENTRY=> {//if duplicate UNIQUE INDEX found when inserting into mysql
-			return next(errorCode.EOIDEXISTS);
+			return next(errorCode.EOIDEXISTS);//TODO 回滚Redis中的插入
 		})
 		.catch((e)=> {//handle all errors during the redis and mysql ops
 			if (e.toClient)  return next(e.body);//if the message is sent to client

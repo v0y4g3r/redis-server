@@ -19,5 +19,8 @@ module.exports = [
 	'stu_school',
 	'department',
 	'major',
-	'identification'
+	'identification',
+	'is_upload',
+	'random_num',
+	'student_id'
 ]
