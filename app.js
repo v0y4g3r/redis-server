@@ -29,6 +29,7 @@ app.use(bodyParser.urlencoded({
 //Route config
 app.use('/query', bodyParser.json(), query.router);
 app.use('/register', bodyParser.json(), register.router);
+// app.use('/register', register.router);
 app.use('/bind', bodyParser.json(), bind.router);
 
 // 404 error handler

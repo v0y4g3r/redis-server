@@ -2,7 +2,7 @@ var router = require('express').Router();
 var utils = require('../utils');
 
 var sjdMember_schema = require('../models/sjd_members');
-
+var sjdUcenterMember_schema = require('../models/sjd_ucenter_member');
 var errorCode = require('../errors/errorCode');
 
 /**
@@ -18,7 +18,7 @@ router.post('/', function (request, response, next) {
 	if (!thisClient) return next(errorCode.EREDISERR);
 	if (!request.body) return next(errorCode.ENULLREQ);
 
-	var sjdMemberInstance = utils.partialCast(sjdMember_schema, request.body);//trim useless attr(in case)
+	var sjdMemberInstance = utils.partialCast(sjdMember_schema.concat(sjdUcenterMember_schema), request.body);//trim useless attr(in case)
 	var uid = sjdMemberInstance['uid']; //get mobile phone number
 	if (!uid) return next(errorCode.ENULLUID);
 
