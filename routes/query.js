@@ -17,6 +17,7 @@ router.get('/', function (req, res, next) {
 			if (!uid) throw({
 				"toClient": true, "body": ((data)=> {
 					data.message = "微信ID未绑定！";
+					data.status='200';
 					return data
 				})(errorCode.ENULLUID)
 			});
