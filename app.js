@@ -20,7 +20,7 @@ bind.setClient(globalRedisClient);
 var app = express();
 app.set('env', config.env);
 
-app.use(logger('dev'));
+//app.use(logger('dev'));
 
 app.use(bodyParser.urlencoded({
 	extended: false

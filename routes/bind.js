@@ -47,7 +47,9 @@ router.post('/', function (req, response, next) {
 		.catch((e)=> {//handle all errors during the redis and mysql ops
 			if (e.toClient)  return next(e.body);//if the message is sent to client
 			else {
-				console.log(e.stack)
+				console.log(e.stack);
+				return next({"status":"500","message":"EINTERNAL"})
+
 			}
 		});
 });
