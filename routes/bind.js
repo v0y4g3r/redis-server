@@ -36,7 +36,7 @@ router.post('/', function (req, response, next) {
 		.then((mysqlClient)=> {
 			mysqlClient.queryAsync = Promise.promisify(Object.getPrototypeOf(mysqlClient).query);
 			var sql = 'INSERT INTO sjd_oid_uid(oid,uid) VALUES(\'' + openid + '\',\'' + uid + '\');';
-			return mysqlClient.queryAsync(sql);
+			return mysqlClient.queryAsync(sql);//execute insert to MySQL
 		})
 		.then((res)=> {
 			return next(errorCode.SUCCESS);
