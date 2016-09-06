@@ -30,7 +30,7 @@ router.get('/', function (req, res, next) {
 		.catch((e)=> {
 			if (e.toClient) {
 				return next(e.body);
-			}
+			}	
 			console.log(e.stack);
 		});
 });
