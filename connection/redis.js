@@ -10,21 +10,28 @@ var config = require('./../config.js');
 var client = redis.createClient(config.redis);
 
 client.on('connect', function () {
-	logdate('Redis connected');
-	// console.log('' + new Date().toString().green + ' Redis connected');
+  logdate('Redis connected');
+  client.auth(config.redisPasscode, function (err) {
+    if (err) {
+      console.log("Redis auth error!")
+    } else {
+      console.log("Redis auth ok!")
+    }
+  })
+  // console.log('' + new Date().toString().green + ' Redis connected');
 })
 
 client.on('error', function (error) {
-	logdate('Redis client error:\n' + error.stack);
-	// console.log('Redis client error!:\n ' + error.stack());
+  logdate('Redis client error:\n' + error.stack);
+  // console.log('Redis client error!:\n ' + error.stack());
 });
 
 // client.del = RedisClient.del;
 // client.hmset=RedisClient.hmset;
 //TODO is there any better solution to timeout error?
 setInterval(function () {
-	console.log('\n' + new Date().toString().green + ' Redis heart-beat');
-	client.set('redis-keepalive', '1');
+  console.log('\n' + new Date().toString().green + ' Redis heart-beat');
+  client.set('redis-keepalive', '1');
 }, 60 * 1000);
 
 client.setnxAsync = redis.RedisClient.prototype.setnxAsync;//promisified setnx method
