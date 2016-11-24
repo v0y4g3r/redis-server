@@ -18,7 +18,7 @@ client.on('connect', function () {
       return;
     }
     process.stdin.setEncoding('utf8');
-    process.stdin.on("data", ()=> {
+    process.stdin.on("readable", ()=> {
       var input = process.stdin.read().toString().trim().split(' ');
       if (!input) {
         console.err("Please input commmand!")
