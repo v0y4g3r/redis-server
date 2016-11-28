@@ -20,7 +20,6 @@ var queryByUid = require('./routes/queryByUid');
 queryByUid.setClient(globalRedisClient);
 
 var app = express();
-2
 app.set('env', config.env);
 
 //app.use(logger('dev'));

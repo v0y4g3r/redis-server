@@ -1,6 +1,8 @@
 var express = require('express');
 var promise = require('bluebird');
 var router = promise.promisifyAll(express.Router());
+var EventProxy = require('eventproxy');
+var ep = new EventProxy();
 
 var errorCode = require('../errors/errorCode');
 /**
@@ -9,31 +11,25 @@ var errorCode = require('../errors/errorCode');
  */
 
 var thisRedisClient;
-router.get('/', function (req, res, next) {
-  var uid = req.query.uid;
+
+router.get('/', function (request, response, next) {
+  var uid = request.query.uid;
   if (!uid) return next(errorCode.ENULLUID);
 
-  var result = 0;
-  var found = 0;
-  var finished = 0;
-
-  //TODO 这里的性能可以继续优化
   thisRedisClient.keys('OID_UID:*', function (err, oiduid) {
-    for (var oidIndex in oiduid) {
-      var oid = oiduid[oidIndex];
-      thisRedisClient.get(oid, function (err, thisUid) {
-        finished++;
-        if (thisUid == uid) {
-          result = oid;
-          found = 1;
-          res.json({"status": 1, "info": oid});
-        }
-        if (finished == oiduid.length && found == 0) {
-          return next(errorCode.ENORES);
-          // res.json({"res": "nores"});
-        }
+    if (err) return next(errorCode.ENORES);
+
+    //register all-query-finished handler
+    ep.after('E_QUERYFIN', oiduid.length, function (uids) {
+      response.json(uids);
+    })
+
+    //map the query action to all array members
+    oiduid.map(function (oid) {
+      thisRedisClient.get(oid, function (err, res) {
+        ep.emit('E_QUERYFIN', res);
       })
-    }
+    })
   })
 })
 
