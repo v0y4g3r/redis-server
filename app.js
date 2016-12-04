@@ -18,6 +18,8 @@ var bind = require('./routes/bind');
 bind.setClient(globalRedisClient);
 var queryByUid = require('./routes/queryByUid');
 queryByUid.setClient(globalRedisClient);
+var list = require('./routes/list');
+list.setClient(globalRedisClient);
 
 var app = express();
 app.set('env', config.env);
@@ -34,6 +36,7 @@ app.use('/register', bodyParser.json(), register.router);
 // app.use('/register', register.router);
 app.use('/bind', bodyParser.json(), bind.router);
 app.use("/queryByUid", queryByUid.router);
+app.use("/list", list.router);
 
 // 404 error handler
 app.use(function (req, res, next) {
