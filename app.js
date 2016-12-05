@@ -10,16 +10,18 @@ var errorCode = require('./errors/errorCode');
 var globalRedisClient = require('./connection/redis.js');
 
 //Init router/controller and there redis connection
-var query = require('./routes/query');
-query.setClient(globalRedisClient);//set redis client for query
-var register = require('./routes/register');
-register.setClient(globalRedisClient);//set redis client for update
-var bind = require('./routes/bind');
-bind.setClient(globalRedisClient);
-var queryByUid = require('./routes/queryByUid');
-queryByUid.setClient(globalRedisClient);
-var list = require('./routes/list');
-list.setClient(globalRedisClient);
+var queryController = require('./routes/query');
+queryController.setClient(globalRedisClient);//set redis client for query
+var registerController = require('./routes/register');
+registerController.setClient(globalRedisClient);//set redis client for update
+var bindController = require('./routes/bind');
+bindController.setClient(globalRedisClient);
+var queryByUidController = require('./routes/queryByUid');
+queryByUidController.setClient(globalRedisClient);
+var listController = require('./routes/list');
+listController.setClient(globalRedisClient);
+var deleteController = require('./routes/delete');
+deleteController.setClient(globalRedisClient);
 
 var app = express();
 app.set('env', config.env);
@@ -31,17 +33,17 @@ app.use(bodyParser.urlencoded({
 }));
 
 //Route config
-app.use('/query', bodyParser.json(), query.router);
-app.use('/register', bodyParser.json(), register.router);
-// app.use('/register', register.router);
-app.use('/bind', bodyParser.json(), bind.router);
-app.use("/queryByUid", queryByUid.router);
-app.use("/list", list.router);
+app.use('/query', bodyParser.json(), queryController.router);
+app.use('/register', bodyParser.json(), registerController.router);
+app.use('/bind', bodyParser.json(), bindController.router);
+app.use("/queryByUid", queryByUidController.router);
+app.use("/list", listController.router);
+app.use('/delete', deleteController.router);
 
 // 404 error handler
 app.use(function (req, res, next) {
   var err = new Error('Not Found');
-  console.log('In 404 handler:' + process.hrtime())
+  console.log('In 404 handler:' + process.hrtime());
   err.status = 404;
   return next(err);
 });

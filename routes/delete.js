@@ -1,6 +1,6 @@
 /**
  *
- * Created by lei on 16-12-4.
+ * Created by lei on 16-12-5.
  */
 
 var express = require('express');
@@ -9,6 +9,7 @@ var router = promise.promisifyAll(express.Router());
 var EventProxy = require('eventproxy');
 var ep = new EventProxy();
 
+var config = require('../config');
 var errorCode = require('../errors/errorCode');
 /**
  * @param {function} thisRedisClient.hgetall
@@ -18,14 +19,22 @@ var errorCode = require('../errors/errorCode');
 var thisRedisClient;
 
 router.get('/', function (request, response, next) {
+  var passcode = request.query.passcode;
+  if (passcode != config.authCode) {
+    return next(errorCode.EAUTHFAILED);
+  }
 
   var pattern = request.query.pattern;
-  if (!pattern) pattern = "*";
+  if (!pattern) return next(errorCode.ENORES);
 
-  thisRedisClient.keys(pattern, function (err, result) {
-    if (err) return next(errorCode.EINTERNAL);
-    response.json(result)
-  })
+  thisRedisClient.delAsync(pattern)
+    .then(function (results) {
+      if (results == 1) {
+        response.json({'status': '1', 'info': 'OK'});
+      } else {
+        response.json({'status': '0', 'info': '键不存在'});
+      }
+    })
 });
 
 /**

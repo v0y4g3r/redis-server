@@ -6,5 +6,6 @@ module.exports = {
 	"ENORES": {"sign": "0", "message": "未找到信息！", "status": "200"},
 	"ENULLREQ": {"sign": "0", "message": "请求错误！", "status": "400"},
 	"EINTERNAL": {"sign": "0", "message": "服务器错误！", "status": "500"},
+  "EAUTHFAILED": {"sign": "0", "message": "认证错误！", "status": "403"},
 	"SUCCESS": {"sign": "0", "message": "请求成功！", "status": "200"}
-}
+};
