@@ -32,18 +32,22 @@ router.get('/', function (request, response, next) {
       if (!pairs) return next({"sign": "0", "message": "数据为空", "status": "404"});
       var length = pairs.length;
       var count = 0;
+      var responseSent = false;
+
       pairs.forEach(function (item) {
         count++;
-        if (item.uid == uid) {
+        if (item.uid == uid && (!responseSent)) {
           // var timeDiff = process.hrtime(startTime);
           // console.log((timeDiff[0] * 1e9 + timeDiff[1]) / 1e6 + " ms elapsed..");
           var result = item.oid;
+          responseSent = true;
+          console.log(item.oid);
           response.json({status: 1, info: result});
-        } else if (count == length) {
+        } else if (count == length && responseSent == false) {
           return next(errorCode.ENORES);
         }
       })
-    })
+    });
 
     //map the query action to all array members
     oiduids.map(function (oid) {
@@ -53,7 +57,7 @@ router.get('/', function (request, response, next) {
       })
     })
   })
-})
+});
 
 /**
  *
