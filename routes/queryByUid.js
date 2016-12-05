@@ -13,7 +13,7 @@ var errorCode = require('../errors/errorCode');
 var thisRedisClient;
 
 /**
- * This is a very akward solution due to redis is pure K-V based;
+ * This is a very awkward solution due to redis is pure K-V based;
  * First we use redis 'keys' method to get all keys start with 'OID_UID',
  * then use eventproxy to query the corresponding values, and compare the values(uids)
  * to find one that matches user query.
@@ -43,7 +43,6 @@ router.get('/', function (request, response, next) {
           return next(errorCode.ENORES);
         }
       })
-
     })
 
     //map the query action to all array members
